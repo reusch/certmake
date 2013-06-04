@@ -24,7 +24,7 @@ organizationalUnitName  = ZIMK
 "
 
 # script
-INPUT_FILE=tmp_input
+INPUT_FILE=./tmp_input
 
 # ask for domain list
 whiptail --inputbox "Bitte geben Sie eine kommaseparierte Liste von Domains ein, die im Zertifikat enthalten sein sollen:" 10 60 2> $INPUT_FILE
@@ -43,7 +43,7 @@ whiptail --inputbox "Bitte geben Sie eine E-Mail Adresse für das Zertifikat an:
 EMAIL="$(cat $INPUT_FILE)"
 CONFIG="$CONFIG\nemailAddress = $EMAIL"
 
-CONFIG_FILE=tmp_config.cnf
+CONFIG_FILE=./tmp_config.cnf
 echo "$CONFIG" > $CONFIG_FILE
 dd if=/dev/random of=./${SERVERNAME}.rand bs=$KEYSIZE count=1 2>/dev/null
 openssl genrsa -out ${SERVERNAME}.key $KEYSIZE
