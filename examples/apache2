@@ -1,0 +1,8 @@
+example configuration for your apache2 SSL vhost:
+
+SSLEngine on
+SSLCertificateFile /path/to/ssl/server.crt
+SSLCertificateChainFile /path/to/ssl/unitrier-ca-chain.pem
+SSLCertificateKeyFile /path/to/ssl/server.key
+SSLProtocol -ALL +SSLv3 +TLSv1
+SSLCipherSuite ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:-MEDIUM
