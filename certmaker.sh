@@ -62,6 +62,7 @@ CONFIG_FILE=./tmp_config.cnf
 echo -e "$CONFIG" > $CONFIG_FILE
 mkdir -p "$DOMAIN"
 chmod 700 "$DOMAIN"
+cp ./unitrier-ca-chain.pem ./$DOMAIN/
 #dd if=/dev/random of=./${DOMAIN}/.rand bs=$KEYSIZE count=1 2>/dev/null
 openssl genrsa -out ./${DOMAIN}/server.key $KEYSIZE
 chmod 600 ./${DOMAIN}/server.key
