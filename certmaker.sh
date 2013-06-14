@@ -61,8 +61,10 @@ fi
 CONFIG_FILE=./tmp_config.cnf
 echo -e "$CONFIG" > $CONFIG_FILE
 mkdir -p "$DOMAIN"
+chmod 700 "$DOMAIN"
 #dd if=/dev/random of=./${DOMAIN}/.rand bs=$KEYSIZE count=1 2>/dev/null
 openssl genrsa -out ./${DOMAIN}/server.key $KEYSIZE
+chmod 600 ./${DOMAIN}/server.key
 openssl req -new -key ./${DOMAIN}/server.key -out ./${DOMAIN}/server.csr -config $CONFIG_FILE
 openssl x509 -req -days 14 -in ./${DOMAIN}/server.csr -signkey ./${DOMAIN}/server.key -out ./${DOMAIN}/server.crt	
 
