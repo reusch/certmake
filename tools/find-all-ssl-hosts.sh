@@ -9,7 +9,7 @@ HERE=$(dirname $0)
 
 #     https,ssmtp,ldaps,imaps,pop3s 
 PORTS="443,465,636,993,995"
-HOSTS="136.199.8.101 136.199.199.102-103 136.199.8.220"
+HOSTS="136.199.8.1-254 136.199.199.1-254"
 
 OUT=$(nmap --open -sT -P0 -p $PORTS $HOSTS -oG -|grep 'Ports:')
 
