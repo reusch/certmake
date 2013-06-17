@@ -1,5 +1,5 @@
-Tiny wrapper to make dfn cert creation trivial
-===============================================
+Tiny wrapper to make DFN certificate creation trivial
+=====================================================
 
 Just run "./certmakter.sh" and follow the instructions.
 
@@ -21,7 +21,7 @@ Import the cert-$nr.pem cert:
 $ ./import-dfn-pem.sh cert-<nr>.pem <servername-dir>
 ```
 
-And then scp the directory with the certs to the server and deploy
+And then scp the directory with the certificates to the server and deploy
 them.
 
 

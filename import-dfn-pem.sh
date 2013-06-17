@@ -14,10 +14,10 @@ if [ ! -d "$TARGET_DIR" ]; then
     exit 1
 fi
 
-install -m 0600 "$SIGNED_CRT" "${TARGET_DIR}/server.cst"
+install -m 0600 "$SIGNED_CRT" "${TARGET_DIR}/server.crt"
 
 # generate various chains
 cd "$TARGET_DIR"
 
 #TODO: generate various chains
-
+# http://www.digicert.com/ssl-certificate-installation-courier-imap.htm
