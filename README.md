@@ -16,9 +16,9 @@ Get approval from the local DFN PKI person.
 
 Wait for the cert-$nr.pem mail from certify@uni-trier.de. 
 
-Replace server.crt with the real cert-$nr.pem cert:
+Import the cert-$nr.pem cert:
 ```
-$ cp cert-*.pem server.crt
+$ ./import-dfn-pem.sh cert-<nr>.pem <servername-dir>
 ```
 
 And then scp the directory with the certificates to the server and deploy
