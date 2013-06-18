@@ -21,7 +21,7 @@ Expires:	136.199.8.220:995	Oct 31 00:00:00 2015 GMT
 Check all HOSTS and PORTS defined in "config" and generate warning
 MAILS if CERTS are about to expire.
 ```
-$ ./cron-check-expire-dates.sh
+$ ./tools/cron-check-expire-dates.sh
 ```
 
 Check all CERTs are valid for all hosts/ports defined in the "config":
