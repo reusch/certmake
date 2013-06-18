@@ -13,6 +13,17 @@ http://www.digicert.com/ssl-certificate-installation-courier-imap.htm
 EOF
 }
 
+make_postfix_cert() {
+    mkdir -p postfix
+    install -m 0600 server.crt postfix/server.pem
+    cat ../chain/unitrier-ca-chain.pem >> postfix/server.pem
+    install -m 0600 server.key postfix/server.key
+    cat > postfix/README <<EOF
+Certs created based on:
+http://www.postfix.org/TLS_README.html#server_cert_key
+EOF
+}
+
 SIGNED_CRT="$1"
 if [ ! -f "$SIGNED_CRT" ]; then
     echo "need the dfn pem file as the first argument"
@@ -32,3 +43,4 @@ cd "$TARGET_DIR"
 
 # generate cert for some of our apps
 make_courier_cert
+make_postfix_cert
