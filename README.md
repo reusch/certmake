@@ -25,4 +25,7 @@ And then scp the directory with the certificates to the server and deploy
 them.
 
 
-
+Tools
+-----
+There is also some useful stuff in the tools/ directory, check
+README.tools for more info.
