@@ -13,6 +13,7 @@ http://www.digicert.com/ssl-certificate-installation-courier-imap.htm
 EOF
 }
 
+
 SIGNED_CRT="$1"
 if [ ! -f "$SIGNED_CRT" ]; then
     echo "need the dfn pem file as the first argument"
