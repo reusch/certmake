@@ -1,0 +1,22 @@
+
+# first warning level
+MIN_WARN_DAYS=42
+WARN_MAILTO=michael.vogt@uni-trier.de
+#WARN_MAILTO=shen@uni-trier.de
+
+# escalate
+MIN_ESCALATE_DAYS=14
+WARN_ESCALATE_MAILTO=zentrale-systeme@zimk.uni-trier.de
+
+# really escalate(!)
+MIN_MIN_DAYS=7
+WARN_MIN_MIN_MAILTO=leitung@zimk.uni-trier.de
+
+# only pretend
+DRY_RUN=1
+DEBUG=1
+
+#     https,ssmtp,ldaps,imaps,pop3s 
+PORTS="443,465,636,993,995"
+HOSTS="136.199.8.1-254 136.199.199.1-254"
+#HOSTS="136.199.199.214 136.199.8.220"

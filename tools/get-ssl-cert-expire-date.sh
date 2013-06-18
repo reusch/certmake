@@ -18,6 +18,8 @@ if [ -z "$PORT" ]; then
     PORT=443
 fi
 
-# warn if needed
-check_server_cert_expire "$SERVER" "$PORT"
+# check the server
+printf "Host: $SERVER ($SERVER)\tPorts: $PORT/open/tcp/?///\txxx\n" |\
+    get_cert_expire_dates
+
 
