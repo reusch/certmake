@@ -11,6 +11,8 @@ find_all_ssl_hosts() {
     nmap --open -sT -P0 -p $PORTS $HOSTS -oG - | grep 'Ports:'
 }
 
+
+
 # Reads nmap -oG output and gets the cert expire date for each port
 #
 # Input lines look like:
@@ -22,9 +24,11 @@ get_cert_expire_dates() {
         
         for PORT_STRING in $PORTS; do
             PORT=$(echo $PORT_STRING | cut -d/ -f1)
+            # meh, this is more complicated than it should be!
             OPENSSL=$(openssl s_client -showcerts  -connect ${SERVER}:${PORT} \
                 < /dev/null 2>/dev/null | \
-                openssl x509 -noout -subject -dates)
+                openssl x509 -noout -subject -dates \
+                || printf "notAfter=failed-to-load-cert")
             END_DATE=$(echo "$OPENSSL" | grep notAfter | cut -f2 -d=)
             printf "Expires:\t$SERVER:$PORT\t$END_DATE\n"
         done
