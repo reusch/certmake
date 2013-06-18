@@ -11,7 +11,25 @@ find_all_ssl_hosts() {
     nmap --open -sT -P0 -p $PORTS $HOSTS -oG - | grep 'Ports:'
 }
 
-
+# Reads nmap -oG output and checks if the cert is valid
+verify_cert_is_valid() {
+    while read LINE; do
+        SERVER=$(echo "$LINE" | cut -f1 | cut -d' ' -f2)
+        PORTS=$(echo "$LINE" | cut -f2 | cut -f2 -d: )
+        
+        for PORT_STRING in $PORTS; do
+            PORT=$(echo $PORT_STRING | cut -d/ -f1)
+            # meh, this is more complicated than it should be!
+            OPENSSL=$(openssl s_client -showcerts  \
+                -CAfile /etc/ssl/certs/ca-certificates.crt \
+                -connect ${SERVER}:${PORT} \
+                < /dev/null 2>/dev/null | grep Verify \
+                || printf "Verify return code: -1 (failed-to-load-cert)")
+            VALID="$OPENSSL"
+            printf "Valid:\t$SERVER:$PORT\t$VALID\n"
+        done
+    done
+}
 
 # Reads nmap -oG output and gets the cert expire date for each port
 #

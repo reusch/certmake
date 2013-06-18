@@ -23,3 +23,11 @@ MAILS if CERTS are about to expire.
 ```
 $ ./cron-check-expire-dates.sh
 ```
+
+Check all CERTs are valid for all hosts/ports defined in the "config":
+```
+./tools/verify-all-ssl-certs.sh tools/functions.sh
+Valid:	136.199.199.214:443	Verify return code: -1 (failed-to-load-cert)
+Valid:	136.199.8.220:993	    Verify return code: 0 (ok)
+Valid:	136.199.8.220:995	    Verify return code: 0 (ok)
+```
