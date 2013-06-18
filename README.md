@@ -28,4 +28,4 @@ them.
 Tools
 -----
 There is also some useful stuff in the tools/ directory, check
-README.tools for more info.
+tools/README.md for more info.
