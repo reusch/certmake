@@ -24,7 +24,9 @@ while read LINE; do
     for port_string in $PORTS; do
         port=$(echo $port_string | cut -d/ -f1)
         #echo check_server_cert_expire $HOST_IP $port
-        check_server_cert_expire $HOST_IP $port
+        if ! check_server_cert_expire $HOST_IP $port; then
+            echo "WARN: Failed to check $HOST_IP:$port"
+        fi
     done
 done
 
