@@ -11,7 +11,7 @@ server.key - private key
 unitrier-ca-chain.pem - uni trier chain
 ```
 
-Then submit the server.csr to http://pki.pca.dfn.de/rkrk-ca/uni-trier.
+Then submit the server.csr to https://pki.pca.dfn.de/rhrk-ca/uni-trier.
 Get approval from the local DFN PKI person. 
 
 Wait for the cert-$nr.pem mail from certify@uni-trier.de. 
