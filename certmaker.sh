@@ -34,7 +34,23 @@ INPUT_FILE=./tmp_input
 # ask for main domain
 whiptail --inputbox "Bitte geben Sie die Hauptdomain des SSL-Zertifikats ein:" 10 60 2> $INPUT_FILE
 DOMAIN=$(cat $INPUT_FILE)
+
+if [ "$DOMAIN" = "" ] ; then
+	exit 1
+fi
+
 CONFIG="$CONFIG\ncommonName = $DOMAIN"
+
+# check if there's already an existing certificate
+if [ -e "./$DOMAIN" ] ; then
+	whiptail --yesno --defaultno "Es existiert bereits ein Zertifikat für diese Domain! Sind Sie sicher, dass die das vorhandene Zertifikat überschreiben wollen?" 10 60
+	if [ "$?" = "0" ] ; then
+		rm -rf "./$DOMAIN"
+	fi
+	if [ "$?" = "1" ] ; then
+		exit 1
+	fi
+fi
 
 # ask for alias domain list
 whiptail --inputbox "Bitte geben Sie eine kommaseparierte Liste von Alias-Domains ein:" 10 60 2> $INPUT_FILE
