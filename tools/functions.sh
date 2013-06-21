@@ -11,11 +11,19 @@ find_all_ssl_hosts() {
     nmap --open -sT -P0 -p $PORTS $HOSTS -oG - | grep 'Ports:'
 }
 
+gethostbyaddr() {
+    IP="$1"
+    HOSTNAME=$(python -c \
+        "import socket; print socket.gethostbyaddr(\"$IP\")[0].split('.')[0]")
+    printf $HOSTNAME
+}
+
 # Reads nmap -oG output and checks if the cert is valid
 verify_cert_is_valid() {
     while read LINE; do
         SERVER=$(echo "$LINE" | cut -f1 | cut -d' ' -f2)
         PORTS=$(echo "$LINE" | cut -f2 | cut -f2 -d: )
+        HOSTNAME=$(gethostbyaddr "$SERVER")
         
         for PORT_STRING in $PORTS; do
             PORT=$(echo $PORT_STRING | cut -d/ -f1)
@@ -26,7 +34,7 @@ verify_cert_is_valid() {
                 < /dev/null 2>/dev/null | grep Verify \
                 || printf "Verify return code: -1 (failed-to-load-cert)")
             VALID="$OPENSSL"
-            printf "Valid:\t$SERVER:$PORT\t$VALID\n"
+            printf "Valid:\t$SERVER:$PORT\t$HOSTNAME\t$VALID\n"
         done
     done
 }
