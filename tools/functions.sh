@@ -16,6 +16,8 @@ verify_cert_is_valid() {
     while read LINE; do
         SERVER=$(echo "$LINE" | cut -f1 | cut -d' ' -f2)
         PORTS=$(echo "$LINE" | cut -f2 | cut -f2 -d: )
+        HOSTNAME=$(python -c \
+            "import socket; print socket.gethostbyaddr(\"$SERVER\")[0].split('.')[0]")
         
         for PORT_STRING in $PORTS; do
             PORT=$(echo $PORT_STRING | cut -d/ -f1)
@@ -26,7 +28,7 @@ verify_cert_is_valid() {
                 < /dev/null 2>/dev/null | grep Verify \
                 || printf "Verify return code: -1 (failed-to-load-cert)")
             VALID="$OPENSSL"
-            printf "Valid:\t$SERVER:$PORT\t$VALID\n"
+            printf "Valid:\t$SERVER:$PORT\t$HOSTNAME\t$VALID\n"
         done
     done
 }
