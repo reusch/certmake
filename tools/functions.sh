@@ -26,9 +26,22 @@ verify_cert_is_valid() {
                 < /dev/null 2>/dev/null | grep Verify \
                 || printf "Verify return code: -1 (failed-to-load-cert)")
             VALID="$OPENSSL"
-            printf "Valid:\t$SERVER:$PORT\t$VALID\n"
+            DNS=$(get_cert_alternative_subject_names $SERVER | tr -d '[:blank:]' | sed s/'DNS:'//g)
+            printf "Valid:\t$SERVER:$PORT\t$VALID\t[$DNS]\n"
         done
     done
+}
+
+get_cert_alternative_subject_names() {
+    SERVER_AND_PORT="$1"
+
+    # meh, this is more complicated than it should be!
+    OPENSSL=$(openssl s_client -showcerts  -connect ${SERVER}:${PORT} \
+        < /dev/null 2>/dev/null | \
+        openssl x509 -noout -subject -text \
+        || printf "DNS: failed-to-load-cert")
+    DNS=$(echo "$OPENSSL" | grep DNS: | cut -f2 -d=)
+    printf "$DNS"
 }
 
 # Reads nmap -oG output and gets the cert expire date for each port
