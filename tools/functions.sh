@@ -26,7 +26,7 @@ verify_cert_is_valid() {
                 < /dev/null 2>/dev/null | grep Verify \
                 || printf "Verify return code: -1 (failed-to-load-cert)")
             VALID="$OPENSSL"
-            DNS=$(get_cert_alternative_subject_names $SERVER | tr -d '[:blank:]' | sed s/'DNS:'//g)
+            DNS=$(get_cert_alternative_subject_names $SERVER)
             printf "Valid:\t$SERVER:$PORT\t$VALID\t[$DNS]\n"
         done
     done
@@ -40,7 +40,8 @@ get_cert_alternative_subject_names() {
         < /dev/null 2>/dev/null | \
         openssl x509 -noout -subject -text \
         || printf "DNS: failed-to-load-cert")
-    DNS=$(echo "$OPENSSL" | grep DNS: | cut -f2 -d=)
+    DNS=$(echo "$OPENSSL" | grep DNS: | cut -f2 -d= | \
+          tr -d '[:blank:]' | sed s/'DNS:'//g)
     printf "$DNS"
 }
 
