@@ -62,7 +62,7 @@ CONFIG_FILE=./tmp_config.cnf
 printf "$CONFIG" > $CONFIG_FILE
 mkdir -p "$DOMAIN"
 chmod 700 "$DOMAIN"
-cp ./tools/files/unitrier-ca-chain.pem ./$DOMAIN/
+cp ./chain/unitrier-ca-chain.pem ./$DOMAIN/
 openssl genrsa -out ./${DOMAIN}/server.key $KEYSIZE
 chmod 600 ./${DOMAIN}/server.key
 openssl req -new -key ./${DOMAIN}/server.key -out ./${DOMAIN}/server.csr -config $CONFIG_FILE
