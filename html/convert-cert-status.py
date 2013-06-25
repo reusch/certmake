@@ -23,7 +23,7 @@ class CertStatus(object):
         d["ip"] = line[IP_AND_PORT].split(":")[0]
         d["port"] = line[IP_AND_PORT].split(":")[1]
         d["dnsname"] = line[DNSNAME]
-        d["verify_result"] = line[VERIFY_RESULT]
+        d["verify_result"] = line[VERIFY_RESULT].replace("Verify return code: ", "")
         d["verify_ok"] = "Verify return code: 0 " in d["verify_result"]
         d["alt_subjects"] = line[ALT_SUBJECTS][1:-1].split(",")
         d["expire_date"] = cls._parse_and_format_date(line[EXPIRE_DATE])
