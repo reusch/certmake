@@ -28,8 +28,10 @@ V3REQ="
 [ v3_req ]
 "
 
-# script
+# define the two temp files and add trap hander for proper cleanup
 INPUT_FILE=./tmp_input
+CONFIG_FILE=./tmp_config.cnf
+trap "rm -f $INPUT_FILE $CONFIG_FILE" EXIT INT TERM
 
 # ask for main domain
 whiptail --inputbox "Bitte geben Sie die Hauptdomain des SSL-Zertifikats ein:" 10 60 2> $INPUT_FILE
@@ -73,9 +75,6 @@ CONFIG="$CONFIG\n\n[ v3_req ]"
 if [ -n "$ALTNAMES" ] ; then
 	CONFIG="$CONFIG\nsubjectAltName = $ALTNAMES"
 fi
-
-CONFIG_FILE=./tmp_config.cnf
-trap "rm -f $INPUT_FILE $CONFIG_FILE" EXIT INT TERM
 
 printf "$CONFIG" > $CONFIG_FILE
 mkdir -p "$DOMAIN"
