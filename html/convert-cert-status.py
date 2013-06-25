@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/bin/python
 
 import datetime
 import dateutil.parser
@@ -25,7 +25,7 @@ class CertStatus(object):
         d["dnsname"] = line[DNSNAME]
         d["verify_result"] = line[VERIFY_RESULT]
         d["verify_ok"] = "Verify return code: 0 " in d["verify_result"]
-        d["alt_subjects"] = line[ALT_SUBJECTS]
+        d["alt_subjects"] = line[ALT_SUBJECTS].split(",")
         d["expire_date"] = line[EXPIRE_DATE]
         d["expire_days_left"] = cls._get_expire_days_left(d["expire_date"])
         return CertStatus(**d)
