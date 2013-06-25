@@ -2,7 +2,7 @@
 
 set -e
 
-KEYSIZE=4096
+KEYSIZE=2048
 
 CONFIG="
 [ req ]
@@ -63,7 +63,7 @@ printf "$CONFIG" > $CONFIG_FILE
 mkdir -p "$DOMAIN"
 chmod 700 "$DOMAIN"
 cp ./chain/unitrier-ca-chain.pem ./$DOMAIN/
-openssl genrsa -out ./${DOMAIN}/server.key $KEYSIZE
+openssl genrsa -passout pass:dastaugtnix -out ./${DOMAIN}/server.key $KEYSIZE
 chmod 600 ./${DOMAIN}/server.key
 openssl req -new -key ./${DOMAIN}/server.key -out ./${DOMAIN}/server.csr -config $CONFIG_FILE
 openssl x509 -req -days 14 -in ./${DOMAIN}/server.csr -signkey ./${DOMAIN}/server.key -out ./${DOMAIN}/server.crt	

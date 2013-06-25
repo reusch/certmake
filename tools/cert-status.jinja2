@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <title>Cert Status</title>
+  </head>
+
+  <body>
+    <table border="1">
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Expire Date</th>
+        <th>IP</th>
+        <th>Alternative Subject Names</th>
+      </tr>
+
+      {% for cert in all_certs %}
+      <tr>
+        <td>{{ cert.dnsname }}</td>
+
+        {% if cert.verify_ok %}
+        <td>{{ cert.verify_result }}</td>
+        {% else %}
+        <td bgcolor="red">{{ cert.verify_result }}</td>
+        {% endif %}
+
+        {% if cert.expire_days_left < 90 %}
+        <td bgcolor="red">{{ cert.expire_date }}</td>
+        {% elif cert.expire_days_left < 365 %}
+        <td bgcolor="yellow">{{ cert.expire_date }}</td>
+        {% else %}
+        <td>{{ cert.expire_date }}</td>
+        {% endif %}
+
+        <td>{{ cert.ip }}:{{cert.port}}</td>
+
+        <td>{{ cert.alt_subjects }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    Created {{ now }}.
+  </body>
+</html>
