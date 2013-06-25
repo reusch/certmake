@@ -24,6 +24,19 @@ http://www.postfix.org/TLS_README.html#server_cert_key
 EOF
 }
 
+make_apache_cert() {
+    mkdir -p apache
+    install -m 0600 server.crt apache/server.crt
+    cat ../chain/unitrier-ca-chain.pem >> apache/chain.pem
+    install -m 0600 server.key apache/server.key
+    cat > apache/README <<EOF
+Certs created based on:
+http://wiki.cacert.org/SimpleApacheCert
+EOF
+    
+}
+
+
 SIGNED_CRT="$1"
 if [ ! -f "$SIGNED_CRT" ]; then
     echo "need the dfn pem file as the first argument"
@@ -44,3 +57,4 @@ cd "$TARGET_DIR"
 # generate cert for some of our apps
 make_courier_cert
 make_postfix_cert
+make_apache_cert
