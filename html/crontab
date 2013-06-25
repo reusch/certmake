@@ -1,0 +1,2 @@
+# m h  dom mon dow   command
+45 19 * * * ~/certmake/html/cron-html-update.sh
