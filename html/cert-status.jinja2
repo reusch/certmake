@@ -65,21 +65,16 @@
             return false; 
           }, 
           format: function(s) {
-            s = s.replace(/\./g, '').replace(/Error/g, 0);
+            s = s.split('.').reverse().join('').replace(/Error/g, '0');
             return parseInt(s); 
-          }, 
-          // set type, either numeric or text 
+          },
           type: 'numeric'
         });
 
         $("table#sortingTable").tablesorter({
-          headers: { 
-            // assign the secound column (we start counting zero)
+          headers: {
             2: {
               sorter: 'expires'
-            },
-            3: {
-                sorter: false 
             },
             4: {
                 sorter: false 
