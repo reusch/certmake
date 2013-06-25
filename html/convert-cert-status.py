@@ -24,7 +24,7 @@ class CertStatus(object):
         d["port"] = line[IP_AND_PORT].split(":")[1]
         d["dnsname"] = line[DNSNAME]
         d["verify_result"] = line[VERIFY_RESULT].replace("Verify return code: ", "")
-        d["verify_ok"] = "Verify return code: 0 " in d["verify_result"]
+        d["verify_ok"] = "0 (ok)" in d["verify_result"]
         d["alt_subjects"] = line[ALT_SUBJECTS][1:-1].split(",")
         d["expire_date"] = cls._parse_and_format_date(line[EXPIRE_DATE])
         d["expire_days_left"] = cls._get_expire_days_left(d["expire_date"])
@@ -36,7 +36,7 @@ class CertStatus(object):
             expire_date = dateutil.parser.parse(expire_date_str, ignoretz=True)
             return expire_date.strftime("%d.%m.%Y")
         except ValueError:
-            return ""
+            return "Error"
         
 
     @classmethod

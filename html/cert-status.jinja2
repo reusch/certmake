@@ -3,11 +3,12 @@
     <title>Cert Status</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/style.css" rel="stylesheet" media="screen">
   </head>
 
   <body>
     <div class="container" style="padding-top: 5px;">
-      <table class="table table-striped table-bordered table-condensed">
+      <table id="sortingTable" class="table table-striped table-bordered table-condensed tablesorter">
         <thead>
           <tr>
             <th>Name</th>
@@ -30,11 +31,11 @@
             {% endif %}
 
             {% if cert.expire_days_left < 90 %}
-            <td><a href="#" class="btn btn-danger disabled">{{ cert.expire_date }}</a></td>
+            <td><a name= "{{ cert.dnsname }}" href="#{{ cert.dnsname }}" class="btn btn-danger disabled">{{ cert.expire_date }}</a></td>
             {% elif cert.expire_days_left < 365 %}
-            <td><a href="#" class="btn btn-warning disabled">{{ cert.expire_date }}</a></td>
+            <td><a name= "{{ cert.dnsname }}" href="#{{ cert.dnsname }}" class="btn btn-warning disabled">{{ cert.expire_date }}</a></td>
             {% else %}
-            <td><a href="#" class="btn disabled">{{ cert.expire_date }}</a></td>
+            <td><a name= "{{ cert.dnsname }}" href="#{{ cert.dnsname }}" class="btn disabled">{{ cert.expire_date }}</a></td>
             {% endif %}
 
             <td>{{ cert.ip }}:{{cert.port}}</td>
@@ -54,8 +55,39 @@
 
       Created {{ now }}.
     </div>
-    <!-- <script src="js/jquery.min.js"></script> -->
-    <!-- <script src="js/tablesort.js"></script> -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $.tablesorter.addParser({ 
+          id: 'expires', 
+          is: function(s) {
+            return false; 
+          }, 
+          format: function(s) {
+            s = s.replace(/\./g, '').replace(/Error/g, 0);
+            return parseInt(s); 
+          }, 
+          // set type, either numeric or text 
+          type: 'numeric'
+        });
+
+        $("table#sortingTable").tablesorter({
+          headers: { 
+            // assign the secound column (we start counting zero)
+            2: {
+              sorter: 'expires'
+            },
+            3: {
+                sorter: false 
+            },
+            4: {
+                sorter: false 
+            } 
+          }
+        });
+      });
+    </script>
     <!-- <script src="js/bootstrap.min.js"></script> -->
   </body>
 </html>
