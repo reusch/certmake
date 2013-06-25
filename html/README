@@ -1,0 +1,8 @@
+Generate pretty html certstatus
+===============================
+
+
+Needs:
+python-jinja2
+python-dateutil
+

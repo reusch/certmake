@@ -26,9 +26,18 @@ class CertStatus(object):
         d["verify_result"] = line[VERIFY_RESULT]
         d["verify_ok"] = "Verify return code: 0 " in d["verify_result"]
         d["alt_subjects"] = line[ALT_SUBJECTS].split(",")
-        d["expire_date"] = line[EXPIRE_DATE]
+        d["expire_date"] = cls._parse_and_format_date(line[EXPIRE_DATE])
         d["expire_days_left"] = cls._get_expire_days_left(d["expire_date"])
         return CertStatus(**d)
+
+    @classmethod
+    def _parse_and_format_date(cls, expire_date_str):
+        try:
+            expire_date = dateutil.parser.parse(expire_date_str, ignoretz=True)
+            return expire_date.strftime("%d.%m.%Y")
+        except ValueError:
+            return ""
+        
 
     @classmethod
     def _get_expire_days_left(cls, expire_date_str):
