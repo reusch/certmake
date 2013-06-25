@@ -35,7 +35,8 @@ verify_cert_is_valid() {
                 || printf "Verify return code: -1 (failed-to-load-cert)")
             VALID="$OPENSSL"
             DNS=$(get_cert_alternative_subject_names $SERVER)
-            printf "Status:\t$SERVER:$PORT\t$HOSTNAME\t$VALID\t[$DNS]\n"
+            EXPIRES=$(get_cert_expire_date_for_server "$SERVER" "$PORT")
+            printf "Status:\t$SERVER:$PORT\t$HOSTNAME\t$VALID\t[$DNS]\t$EXPIRES\n"
         done
     done
 }
@@ -53,6 +54,20 @@ get_cert_alternative_subject_names() {
     printf "$DNS"
 }
 
+# print the expire date for a given server/ip combination
+get_cert_expire_date_for_server() {
+    SERVER="$1"
+    PORT="$2"
+
+    # meh, this is more complicated than it should be!
+    OPENSSL=$(openssl s_client -showcerts  -connect ${SERVER}:${PORT} \
+        < /dev/null 2>/dev/null | \
+        openssl x509 -noout -subject -dates \
+        || printf "notAfter=failed-to-load-cert")
+    END_DATE=$(echo "$OPENSSL" | grep notAfter | cut -f2 -d=)
+    printf "$END_DATE"
+}
+
 # Reads nmap -oG output and gets the cert expire date for each port
 #
 # Input lines look like:
@@ -64,12 +79,7 @@ get_cert_expire_dates() {
         
         for PORT_STRING in $PORTS; do
             PORT=$(echo $PORT_STRING | cut -d/ -f1)
-            # meh, this is more complicated than it should be!
-            OPENSSL=$(openssl s_client -showcerts  -connect ${SERVER}:${PORT} \
-                < /dev/null 2>/dev/null | \
-                openssl x509 -noout -subject -dates \
-                || printf "notAfter=failed-to-load-cert")
-            END_DATE=$(echo "$OPENSSL" | grep notAfter | cut -f2 -d=)
+            END_DATE=$(get_cert_expire_date_for_server "$SERVER" "$PORT")
             printf "Expires:\t$SERVER:$PORT\t$END_DATE\n"
         done
     done
