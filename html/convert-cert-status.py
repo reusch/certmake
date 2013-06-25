@@ -25,7 +25,7 @@ class CertStatus(object):
         d["dnsname"] = line[DNSNAME]
         d["verify_result"] = line[VERIFY_RESULT]
         d["verify_ok"] = "Verify return code: 0 " in d["verify_result"]
-        d["alt_subjects"] = line[ALT_SUBJECTS].split(",")
+        d["alt_subjects"] = line[ALT_SUBJECTS][1:-1].split(",")
         d["expire_date"] = cls._parse_and_format_date(line[EXPIRE_DATE])
         d["expire_days_left"] = cls._get_expire_days_left(d["expire_date"])
         return CertStatus(**d)
