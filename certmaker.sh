@@ -59,6 +59,8 @@ if [ -n "$ALTNAMES" ] ; then
 fi
 
 CONFIG_FILE=./tmp_config.cnf
+trap "rm -f $INPUT_FILE $CONFIG_FILE" EXIT INT TERM
+
 printf "$CONFIG" > $CONFIG_FILE
 mkdir -p "$DOMAIN"
 chmod 700 "$DOMAIN"
@@ -68,4 +70,3 @@ chmod 600 ./${DOMAIN}/server.key
 openssl req -new -key ./${DOMAIN}/server.key -out ./${DOMAIN}/server.csr -config $CONFIG_FILE
 openssl x509 -req -days 14 -in ./${DOMAIN}/server.csr -signkey ./${DOMAIN}/server.key -out ./${DOMAIN}/server.crt	
 
-trap "rm -f ./${SERVERNAME}.rand; rm $INPUT_FILE; rm $CONFIG_FILE" EXIT INT TERM
