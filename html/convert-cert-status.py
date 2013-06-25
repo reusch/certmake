@@ -34,7 +34,7 @@ class CertStatus(object):
     def _parse_and_format_date(cls, expire_date_str):
         try:
             expire_date = dateutil.parser.parse(expire_date_str, ignoretz=True)
-            return expire_date.isoformat(sep=" ")
+            return expire_date.strftime("%d.%m.%Y %H:%M")
         except ValueError:
             return ""
         
