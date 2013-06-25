@@ -36,4 +36,8 @@ download_and_verify \
 # and concat them in the right order (order is important!)
 TARGET=unitrier-ca-chain.pem
 cat g_cacert.pem g_intermediatecacert.pem g_rootcert.pem > $TARGET
-echo "generated chain $TARGET"
+if ! certtool --verify-chain --infile $TARGET; then
+    echo "ERROR: failed to verify $TARGET"
+else
+    echo "generated chain $TARGET"
+fi

@@ -1,3 +1,6 @@
-Chain downloaded from:
- http://www.uni-trier.de/index.php?id=22120
-contacted.
+More information about the certificate chain can be found here:
+http://www.uni-trier.de/index.php?id=22120
+
+The script "genchain.sh" will (re)generate the chain to the 
+G2 root cert with the correct cert ordering. It needs both:
+$ sudo apt-get install openssl gnutls-bin
