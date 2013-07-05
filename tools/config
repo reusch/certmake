@@ -16,7 +16,7 @@ WARN_MIN_MIN_MAILTO=leitung@zimk.uni-trier.de
 DRY_RUN=1
 DEBUG=1
 
-#     https,ssmtp,ldaps,imaps,pop3s 
-PORTS="443,465,636,993,995"
+#     https,ssmtp,smtp-neu,ldaps,imaps,pop3s 
+PORTS="443,465,587,636,993,995"
 HOSTS="136.199.8.1-254 136.199.199.1-254"
 #HOSTS="136.199.199.214 136.199.8.220"
