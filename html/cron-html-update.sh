@@ -13,6 +13,6 @@ TARGET=$TARGETDIR/index.html
 cp -ar $STATIC $TARGETDIR
 
 # deploy info
-../tools/verify-all-ssl-certs.sh > ${TARGET}
+../tools/verify-all-ssl-certs.sh cert-status.txt
 ./convert-cert-status.py cert-status.txt > ${TARGET}.tmp
 mv ${TARGET}.tmp $TARGET
