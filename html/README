@@ -1,8 +1,10 @@
 Generate pretty html certstatus
 ===============================
 
+Designed to run from crontab and the output data will be put into
+/var/www/certstatus
 
-Needs:
-python-jinja2
-python-dateutil
-
+Additional packages needed:
+```
+$ sudo apt-get install python-jinja2 python-dateutil
+```
