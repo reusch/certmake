@@ -2,7 +2,7 @@
 
 set -e
 
-KEYSIZE=4096
+KEYSIZE=${CERTMAKE_KEYSIZE:-4096}
 
 CONFIG="
 [ req ]
