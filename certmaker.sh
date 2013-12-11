@@ -41,6 +41,14 @@ if [ "$DOMAIN" = "" ] ; then
 	exit 1
 fi
 
+# ask for keysize
+whiptail --inputbox "Key Size:" 10 60 $KEYSIZE 2> $INPUT_FILE
+KEYSIZE=$(cat $INPUT_FILE)
+
+if [ "$DOMAIN" = "" ] ; then
+	exit 1
+fi
+
 CONFIG="$CONFIG\ncommonName = $DOMAIN"
 
 # check if there's already an existing certificate
@@ -67,7 +75,8 @@ if [ -n "$ALIASDOMAINS" ] ; then
 fi
 
 # ask for email address
-whiptail --inputbox "Bitte geben Sie eine E-Mail Adresse für das Zertifikat an:" 10 60 "webmaster@uni-trier.de" 2> $INPUT_FILE
+EMAIL="$USER@uni-trier.de"
+whiptail --inputbox "Bitte geben Sie eine E-Mail Adresse für das Zertifikat an:" 10 60 "$EMAIL" 2> $INPUT_FILE
 EMAIL="$(cat $INPUT_FILE)"
 CONFIG="$CONFIG\nemailAddress = $EMAIL"
 
