@@ -24,6 +24,22 @@ http://www.postfix.org/TLS_README.html#server_cert_key
 EOF
 }
 
+make_idrac_cert() {
+    mkdir -p idrac
+    export PASS=""
+    install -m 0600 server.key idrac/server.key
+    install -m 0600 server.crt idrac/server.pem
+    cat ../chain/unitrier-ca-chain.pem >> idrac/server.pem
+    openssl pkcs12 -export -in idrac/server.pem -inkey idrac/server.key -out idrac/all.p12 -clcerts -passin env:PASS -passout env:PASS -password env:PASS
+    openssl pkcs12 -in idrac/all.p12 -out idrac/finalcert.pem -passout env:PASS -passin env:PASS -passout env:PASS
+    rm -f idrac/server.pem idrac/all.p12
+    cat > idrac/README <<EOF
+Certs created based on:
+https://redmine.uni-trier.de/projects/wlan/wiki/SSL-Zertifikate_f%C3%BCr_WLAN-Controller
+http://serverfault.com/questions/485426/install-existing-ssl-certificate-on-dell-idrac7
+EOF
+}
+
 make_apache_cert() {
     mkdir -p apache
     install -m 0600 server.crt apache/server.crt
@@ -58,3 +74,4 @@ cd "$TARGET_DIR"
 make_courier_cert
 make_postfix_cert
 make_apache_cert
+make_idrac_cert
