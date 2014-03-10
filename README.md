@@ -1,7 +1,7 @@
 Tiny wrapper to make DFN certificate creation trivial
 =====================================================
 
-Just run "./certmakter.sh" and follow the instructions.
+Just run "./certmaker.sh" and follow the instructions.
 
 The certificates are generated in a <servername> dir and contain:
 ```
